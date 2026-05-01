@@ -26,6 +26,8 @@ public class UserService {
         String uuid1 = UUID.randomUUID().toString();
         String uuid2 = UUID.randomUUID().toString();
         String uuid3 = UUID.randomUUID().toString();
+        String uuid4 = UUID.randomUUID().toString();
+        String uuid5 = UUID.randomUUID().toString();
         User user1 = new User(
                 uuid1,
                 "user1@mail.com",
@@ -65,10 +67,38 @@ public class UserService {
                         new Address(2, "homeaddress", "Street No. 222", "AU")
                 }
         );
+        User user4 = new User(
+                uuid4,
+                "user4@mail.com",
+                "user4",
+                "+525545678901",
+                encrypt("45678901"),
+                "AARR990101AAA",
+                "01-01-2026 20:00:00",
+                new Address[] {
+                        new Address(1, "workaddress", "Street No. 111", "UK"),
+                        new Address(2, "homeaddress", "Street No. 222", "AU")
+                }
+        );
+        User user5 = new User(
+                uuid5,
+                "user4@mail.com",
+                "user4",
+                "+525556789012",
+                encrypt("56789012"),
+                "AARR990101BBB",
+                "01-01-2026 20:00:00",
+                new Address[] {
+                        new Address(1, "workaddress", "Street No. 111", "UK"),
+                        new Address(2, "homeaddress", "Street No. 222", "AU")
+                }
+        );
 
         usersList.add(user1);
         usersList.add(user2);
         usersList.add(user3);
+        usersList.add(user4);
+        usersList.add(user5);
     }
 
     public User login(String taxId, String password) {

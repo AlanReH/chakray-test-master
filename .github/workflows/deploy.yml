@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build jar
+        run: mvn clean package
+
+      - name: Build docker image
+        run: docker build -t spring-api .
+
+      - name: Save image
+        run: docker save spring-api > spring-api.tar
+
+      - name: Copy to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          source: "spring-api.tar"
+          target: "/home/ubuntu/"
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker load < spring-api.tar
+            docker stop spring-api || true
+            docker rm spring-api || true
+            docker run -d -p 8080:8080 --name spring-api spring-api
