@@ -26,6 +26,9 @@ jobs:
       - name: Save image
         run: docker save spring-api > spring-api.tar
 
+
+      - name: Debug host
+        run: echo "${{ secrets.SERVER_IP }}"
       - name: Copy to server
         uses: appleboy/scp-action@v0.1.4
         with:
