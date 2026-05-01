@@ -26,9 +26,6 @@ jobs:
       - name: Save image
         run: docker save spring-api > spring-api.tar
 
-
-      - name: Debug host
-        run: echo "${{ secrets.SERVER_IP }}"
       - name: Copy to server
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -46,6 +43,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             docker load < spring-api.tar
-            docker stop spring-api || true
-            docker rm spring-api || true
-            docker run -d -p 8080:8080 --name spring-api spring-api
+            docker stop users-api || true
+            docker rm users-api || true
+            docker run -d -p 8080:8080 --name users-api spring-api
